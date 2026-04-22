@@ -1,0 +1,126 @@
+#Create a simulator object 
+set ns [new Simulator] 
+#Define different colors for data flows (for NAM) 
+$ns color 1 Blue 
+$ns color 2 Red 
+$ns color 3 green 
+#Open the NAM trace file 
+set nf [open dmce.nam w] 
+$ns namtrace-all $nf 
+#Define a 'finish' procedure 
+proc finish {} { 
+global ns nf 
+$ns flush-trace 
+#Close the NAM trace file 
+close $nf 
+#Execute NAM on the trace file 
+exec nam dmce.nam & 
+exit 0 
+} 
+#Create four nodes 
+set n0 [$ns node] 
+set n1 [$ns node] 
+set n2 [$ns node] 
+set n3 [$ns node] 
+#Create links between the nodes 
+$ns duplex-link $n0 $n2 2Mb 10ms DropTail 
+$ns duplex-link $n1 $n2 2Mb 10ms DropTail 
+$ns duplex-link $n2 $n3 1.7Mb 20ms DropTail 
+#Set Queue Size of link (n2-n3) to 10 
+$ns queue-limit $n2 $n3 10 
+#Give node position (for NAM) 
+$ns duplex-link-op $n0 $n2 orient right-down 
+$ns duplex-link-op $n1 $n2 orient right-up 
+$ns duplex-link-op $n2 $n3 orient right 
+#Monitor the queue for link (n2-n3). (for NAM) 
+$ns duplex-link-op $n2 $n3 queuePos 0.5 
+#Setup a TCP connection 
+set tcp [new Agent/TCP] 
+$tcp set class_ 2 
+$ns attach-agent $n0 $tcp 
+set sink [new Agent/TCPSink] 
+$ns attach-agent $n3 $sink 
+$ns connect $tcp $sink 
+$tcp set fid_ 3 
+#Setup a FTP over TCP connection 
+set ftp [new Application/FTP] 
+$ftp attach-agent $tcp 
+$ftp set type_ FTP 
+#Setup a UDP connection 
+set udp [new Agent/UDP] 
+$ns attach-agent $n1 $udp 
+set null [new Agent/Null] 
+$ns attach-agent $n3 $null 
+$ns connect $udp $null 
+$udp set fid_ 2 
+#Setup a TCP connection 
+set tcp [new Agent/TCP] 
+$tcp set class_ 2 
+$ns attach-agent $n2 $tcp 
+set sink [new Agent/TCPSink] 
+$ns attach-agent $n3 $sink 
+$ns connect $tcp $sink 
+#Setup a CBR over UDP connection 
+set cbr [new Application/Traffic/CBR] 
+$cbr attach-agent $udp 
+$cbr set type_ CBR 
+$cbr set packet_size_ 1000 
+$cbr set rate_ 1mb 
+$cbr set random_ false 
+#Schedule events for the CBR and FTP agents 
+$ns at 0.1 "$cbr start" 
+$ns at 1.0 "$ftp start" 
+$ns at 4.0 "$ftp stop" 
+$ns at 4.5 "$cbr stop" 
+#Detach tcp and sink agents (not really necessary) 
+$ns at 4.5 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n3 $sink" 
+#Call the finish procedure after 5 seconds of simulation time 
+$ns at 5.0 "finish" 
+#Print CBR packet size and interval 
+puts "CBR packet size = [$cbr set packet_size_]" 
+puts "CBR interval = [$cbr set interval_]" 
+#Run the simulation 
+$ns run
+
+SOFTWARE USED:  
+● Operating System: Ubuntu 20.04 or above 
+● Simulation Tool: NS-2.34 / NS-2.35 
+● Language Used: Tool Command Language (TCL)
+
+THEORY: 
+
+NS2 is an object-oriented, discrete event driven network simulator developed at UC 
+Berkley written in C++ and OTcl (Object-oriented Tool Command Language). NS is 
+useful for simulating local and wide area networks. NS2 is an open-source simulation 
+tool that primarily runs on Linux (cygwin for Windows). The features of NS2 are: 
+● Is a discrete event simulator for networking research 
+● Works at packet level. 
+● Provide support to simulate  bunch of protocols like TCP, UDP, FTP, etc. 
+● Simulate wired and wireless network. 
+A shared link is a communication channel where multiple nodes transmit data over the 
+same medium. This leads to possible congestion, delay, and packet loss. 
+In this experiment: 
+● Multiple sender nodes transmit data 
+● Data packets share a common link 
+● TCP/UDP agents are used to study traffic behavior 
+● The performance is observed using NAM visualization and trace files
+
+PROCEDURE: 
+
+1. Open terminal in Ubuntu. 
+2. Create a new TCL file: 
+> gedit filename.tcl 
+3. Write the TCL script to define: 
+● Simulator object 
+● Nodes 
+● Duplex links 
+● Agents (TCP/UDP) 
+● Applications (FTP/CBR) 
+4. Save the file. 
+5. Run the simulation: 
+> ns filename.tcl 
+6. Observe packet transmission using NAM. 
+7. Analyze trace file for performance. 
+
+RESULT: Data packets transmitted from n0 and n1 to n3.Congestion observed at shared 
+bottleneck link (n2–n3) and Packet flow visualized in NAM window
