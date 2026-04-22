@@ -1,0 +1,38 @@
+SOFTWARE USED: Windows/Linux OS and Cisco Packet Tracer.
+
+THEORY:
+In a Mesh topology, every node in the network connection is directly connected to one another 
+forming   overlapping connections between the nodes. 
+This topology delivers better fault tolerance because if any network device fails, it won't affect 
+the network, as other devices can transfer information. 
+The Mesh networks self-configure and self-organize, finding the quickest, most secure way to 
+transmit the data.
+
+PROCEDURE: 
+(COMMON FOR ALL TOPOLOGIES) 
+Step 1: Create Network Topology 
+● Drag and place devices: PCs, Switches, Hubs, Routers. 
+● Arrange them according to the selected topology. 
+● Connect devices using appropriate cables: 
+o Straight-through → PC to Switch / Hub 
+o Cross-over → PC to PC 
+o Serial → Router to Router 
+Step 2: Assign IP Addresses 
+● Click on PC →Desktop →IP config→Assign IP address and click on Default mask. 
+Step 3: Test Connectivity 
+● Use Simple PDU tool to send packets. 
+● Place the packet at sender and receiver PCs to check link is connected 
+● Or open PC → Desktop → Command Prompt/ Terminal 
+e.g give the command, ping 192.168.1.2 
+Step 4: Switch to Simulation Mode 
+● Use Simulation to see hop by hop delivery of such packet flow with Protocol used 
+● Observe packet movement. 
+● Note: 
+o Time of packet travel (delay) 
+o Hop count 
+o Dropped packets 
+o Delivery success/fail 
+
+RESULT:  Various network topologies (Bus, Star, Ring, Mesh, Hybrid) were successfully 
+configured in Cisco Packet Tracer. Performance was compared using delay, hop count, packet 
+loss, and throughput. 
