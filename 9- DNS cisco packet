@@ -1,0 +1,61 @@
+Software Used
+Cisco Packet Tracer
+Theory
+
+DNS (Domain Name System) is used to translate human-readable domain names (like www.google.com) into IP addresses (like 8.8.8.8).
+
+Computers communicate using IP addresses, not names.
+DNS acts like a phonebook of the internet.
+It makes it easier for users to access websites without remembering numeric IPs.
+Working of DNS (short)
+User enters a domain name.
+DNS server checks its database.
+If found, it returns the corresponding IP address.
+The client uses that IP to communicate.
+Procedure
+Step 1: Open Packet Tracer
+Launch Cisco Packet Tracer.
+Step 2: Create Network Topology
+Add the following devices:
+1 Server (DNS Server)
+2 PCs
+1 Switch
+Connect all devices using copper straight-through cables.
+Step 3: Configure IP Addresses
+For Server:
+Go to Desktop → IP Configuration
+Assign:
+IP Address: 192.168.1.2
+Subnet Mask: 255.255.255.0
+For PC1:
+IP Address: 192.168.1.3
+Subnet Mask: 255.255.255.0
+DNS Server: 192.168.1.2
+For PC2:
+IP Address: 192.168.1.4
+Subnet Mask: 255.255.255.0
+DNS Server: 192.168.1.2
+Step 4: Configure DNS on Server
+Click on Server
+Go to Services → DNS
+Turn DNS service ON
+Add record:
+Name: www.example.com
+Address: 192.168.1.2
+Click Add
+Step 5: Test Configuration
+Go to PC → Desktop → Command Prompt
+
+Type:
+
+ping www.example.com
+
+OR use browser:
+
+Open Web Browser
+Enter: www.example.com
+
+Result:
+
+The DNS server was successfully configured.
+The domain name www.example.com was resolved to its IP address, and communication was verified using ping/browser.
