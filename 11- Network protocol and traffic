@@ -1,0 +1,62 @@
+Aim
+
+To simulate TCP/IP stack using a network protocol analyzer and analyze the network traffic.
+
+Software Used
+Wireshark
+
+Theory
+TCP/IP Stack
+
+TCP/IP is a set of communication protocols used for networking.
+
+Layers of TCP/IP Model
+Application Layer – HTTP, FTP, DNS
+Transport Layer – TCP, UDP
+Internet Layer – IP
+Network Access Layer – Ethernet
+Protocol Analyzer
+
+A network protocol analyzer captures and analyzes packets flowing through a network.
+
+Helps in troubleshooting
+Monitors traffic
+Shows real-time packet details
+Working
+Captures packets from network interface
+Displays protocol details like IP, TCP, HTTP
+Allows filtering and analysis
+
+Procedure
+
+Step 1: Install and Open Tool
+Open Wireshark
+Step 2: Select Interface
+Choose active network interface (Wi-Fi/Ethernet)
+Step 3: Start Capturing
+Click Start Capture
+Step 4: Generate Traffic
+Open browser and visit any website
+Example: www.google.com
+Step 5: Stop Capture
+Click Stop after few seconds
+Step 6: Analyze Packets
+Observe:
+Source & Destination IP
+Protocols (TCP, HTTP, DNS)
+Packet length
+Apply filters:
+tcp → shows TCP packets
+http → shows HTTP traffic
+dns → shows DNS queries
+Step 7: Study TCP/IP Layers
+Expand packet details
+Identify:
+Ethernet → Network Access Layer
+IP → Internet Layer
+TCP → Transport Layer
+HTTP/DNS → Application Layer
+
+Result
+
+TCP/IP stack was successfully simulated using Wireshark. Network traffic was captured and analyzed, and different protocol layers were observed.
