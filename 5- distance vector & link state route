@@ -1,0 +1,158 @@
+NS2 TCL Script for Distance Vector Routing 
+set ns [new Simulator] 
+set nr [open thro.tr w] 
+$ns trace-all $nr 
+set nf [open thro.nam w] 
+$ns namtrace-all $nf 
+proc finish { } { 
+global ns nr nf 
+$ns flush-trace 
+close $nf 
+close $nr 
+exec nam thro.nam & 
+exit 0 
+} 
+for { set i 0 } { $i < 12} { incr i 1 } { 
+set n($i) [$ns node]} 
+for {set i 0} {$i < 8} {incr i} { 
+$ns duplex-link $n($i) $n([expr $i+1]) 1Mb 10ms DropTail } 
+$ns duplex-link $n(0) $n(8) 1Mb 10ms DropTail 
+$ns duplex-link $n(1) $n(10) 1Mb 10ms DropTail 
+$ns duplex-link $n(0) $n(9) 1Mb 10ms DropTail 
+$ns duplex-link $n(9) $n(11) 1Mb 10ms DropTail 
+$ns duplex-link $n(10) $n(11) 1Mb 10ms DropTail 
+$ns duplex-link $n(11) $n(5) 1Mb 10ms DropTail 
+set udp0 [new Agent/UDP] 
+$ns attach-agent $n(0) $udp0 
+set cbr0 [new Application/Traffic/CBR] 
+$cbr0 set packetSize_ 500 
+$cbr0 set  interval_ 0.005 
+$cbr0 attach-agent $udp0 
+set null0 [new Agent/Null] 
+$ns attach-agent $n(5) $null0 
+$ns connect $udp0 $null0 
+set udp1 [new Agent/UDP] 
+$ns attach-agent $n(1) $udp1 
+set cbr1 [new Application/Traffic/CBR] 
+$cbr1 set packetSize_ 500 
+$cbr1 set  interval_ 0.005 
+$cbr1 attach-agent $udp1 
+set null0 [new Agent/Null] 
+$ns attach-agent $n(5) $null0 
+$ns connect $udp1 $null0 
+$ns rtproto DV  
+$ns rtmodel-at 10.0 down $n(11) $n(5) 
+$ns rtmodel-at 15.0 down $n(7) $n(6) 
+$ns rtmodel-at 30.0 up $n(11) $n(5) 
+$ns rtmodel-at 20.0 up $n(7) $n(6) 
+$udp0 set fid_ 1 
+$udp1 set fid_ 2 
+$ns color 1 Red 
+$ns color 2 Green 
+$ns at 1.0 "$cbr0 start" 
+$ns at 2.0 "$cbr1 start" 
+$ns at 45 "finish" 
+$ns run 
+NS2 TCL script for Link State Routing 
+set ns [new Simulator] 
+set nr [open thro.tr w] 
+$ns trace-all $nr 
+set nf [open thro.nam w] 
+$ns namtrace-all $nf 
+proc finish {} { 
+global ns nr nf 
+$ns flush-trace  
+close $nf 
+close $nr 
+exec nam thro.nam & 
+exit 0 
+} 
+for { set i 0 } { $i < 12} { incr i 1 } { 
+set n($i) [$ns node] 
+} 
+for {set i 0} {$i < 8} {incr i 1} { 
+$ns duplex-link $n($i) $n([expr $i+1]) 1Mb 10ms DropTail } 
+$ns duplex-link $n(0) $n(8) 1Mb 10ms DropTail 
+$ns duplex-link $n(1) $n(10) 1Mb 10ms DropTail 
+$ns duplex-link $n(0) $n(9) 1Mb 10ms DropTail 
+$ns duplex-link $n(9) $n(11) 1Mb 10ms DropTail 
+$ns duplex-link $n(10) $n(11) 1Mb 10ms DropTail 
+$ns duplex-link $n(11) $n(5) 1Mb 10ms DropTail 
+set udp0 [new Agent/UDP] 
+$ns attach-agent $n(0) $udp0 
+set cbr0 [new Application/Traffic/CBR] 
+$cbr0 set packetSize_ 500 
+$cbr0 set interval_ 0.005 
+$cbr0 attach-agent $udp0  
+set null0 [new Agent/Null] 
+$ns attach-agent $n(5) $null0 
+$ns connect $udp0 $null0 
+set udp1 [new Agent/UDP] 
+$ns attach-agent $n(1) $udp1 
+set cbr1 [new Application/Traffic/CBR] 
+$cbr1 set packet Size_ 500 
+$cbr1 set interval_ 0.005 
+$cbr1 attach-agent $udp1 
+set null0 [new Agent/Null] 
+$ns attach-agent $n(5) $null0 
+$ns connect $udp1 $null0 
+$ns rtproto LS 
+$ns rtmodel-at 10.0 down $n(11) $n(5) 
+$ns rtmodel-at 15.0 down $n(7) $n(6) 
+$ns rtmodel-at 30.0 up $n(11) $n(5) 
+$ns rtmodel-at 20.0 up $n(7) $n(6) 
+$udp0 set fid_ 1 
+$udp1 set fid_ 2 
+$ns color 1 Red 
+$ns color 2 Green 
+$ns at 1.0 "$cbr0 start" 
+$ns at 2.0 "$cbr1 start" 
+$ns at 4.5 "finish" 
+$ns run
+
+SOFTWARE USED: Ubuntu 18.04/ 20.04 and NS-2.34 simulator package. 
+
+THEORY:  
+
+1. Distance Vector Routing (DVR): 
+Distance Vector Routing is a dynamic routing algorithm in which each router periodically 
+exchanges routing information with its direct neighbors. It is one of the earliest routing 
+techniques and forms the basis of protocols like RIP and DSDV. 
+Each router maintains a routing table containing: 
+● Destination network 
+● Distance (usually hop count or cost) 
+● Next-hop router 
+This table represents the router’s “vector” of distances to all destinations. 
+The DVR algorithm operates based on the Bellman-Ford equation: 
+Distance(A, X) = min over all neighbors N [ Distance(A, N) + Distance(N, X) ]
+Advantages 
+● Simple and easy to implement. 
+● Low computational complexity (no global map needed). 
+● Requires less memory and processing. 
+Disadvantages 
+● Slow convergence in large networks. 
+● Prone to routing loops. 
+● Suffers from count-to-infinity problem. 
+● Entire routing table is exchanged → high update traffic
+2. Link State Routing (LSR) 
+Link State Routing is a dynamic routing technique where every router builds a complete 
+topology map of the network and uses Dijkstra’s Shortest Path Algorithm to compute the best 
+routes.It forms the foundation for modern protocols such as OSPF, IS-IS, and OLSR. 
+Each router discovers: 
+● Its neighbors 
+● Link costs 
+● The full network topology (via flooding) 
+This enables routers to compute optimal paths using graph algorithms.
+Characteristics 
+● Fast convergence 
+● Topology awareness (global knowledge) 
+● Updates are event-driven 
+● Works well for large-scale networks 
+●  
+LSR Protocol Examples 
+● OSPF (Open Shortest Path First) 
+● IS-IS 
+● OLSR (used in NS2 for wireless)
+
+RESULT:  Both Distance Vector (DSDV) and Link State (OLSR) routing protocols were 
+successfully implemented in NS2.
