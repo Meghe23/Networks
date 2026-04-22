@@ -1,0 +1,43 @@
+SOFTWARE USED: Ubuntu Linux (20.04 / 22.04 or above), Terminal, Internet connection. 
+THEORY: Networking commands in Linux help administrators and users to: 
+● Configure network interfaces 
+● Diagnose connectivity issues 
+● Analyze routing and DNS 
+● Monitor network traffic 
+1. ifconfig (interface configuration) command is used to configure the kernel-resident 
+network interfaces. This command is used to assign the IP address and netmask to an 
+interface or to enable or disable a given interface. 
+Syntax:  ifconfig [...OPTIONS] [INTERFACE]
+2. IP command is used for network and routing configuration. This replaces the traditional 
+ifconfig and route commands. 
+Syntax: ip [OPTION] OBJECT {COMMAND | help} 
+Common OPTIONS 
+Option -s -4 -6 -c 
+Description 
+Show statistics 
+Display IPv4 addresses only 
+Display IPv6 addresses only 
+Colored output
+3. ping (Packet internet gopher) : Test connectivity between hosts. ping sends an ICMP 
+ECHO_REQUEST packet to the specified host.  If the host responds, you get an ICMP 
+packet back.  Also you can “ping” an IP address to see if a machine is alive. If there is no 
+response, you know something is wrong. Shows packet transmission, latency, and packet 
+loss. 
+Syntax: ping [OPTIONS] destination
+4. Traceroute :  Tracert is a command which can show you the path a packet of information 
+takes from your computer to one you specify (Trace path taken by packets.).  It will list 
+all the routers it passes through until it reaches its destination, or fails to and is discarded.  
+In addition to this, it will tell you how long each 'hop' from router to router takes.  
+E.g. traceroute google.com 
+$ tracert dmce.ac.in 
+5. tracepath command in Linux is used to traces path to destination discovering MTU 
+along this path.  It uses UDP port or some random port.  It is similar to traceroute, but it 
+does not require superuser privileges .  
+tracepath [-n] [-b] [-l pktlen] [-m max_hops] [-p port] destination  
+e.g  tracepath google.com (Shows hop-wise delay and MTU size) 
+$ tracepath dmce.ac.in 
+6. Netstat command is used to examine network connections, routing tables, and various 
+network settings and statistics.  
+7. dig (Domain Information Groper) is a flexible tool for interrogating DNS name servers. It 
+performs DNS lookups and displays the answers that are returned from the name servers. 
+e.g. dig dmce.ac.in
