@@ -1,0 +1,82 @@
+Program 
+
+Server Code (Python)
+
+import socket 
+# create socket 
+Server Code (Python) 
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+# bind 
+server_socket.bind(('localhost', 12345)) 
+# listen 
+server_socket.listen(1) 
+print("Server is waiting for connection...") 
+# accept connection 
+conn, addr = server_socket.accept() 
+print("Connected to:", addr) 
+# receive data 
+data = conn.recv(1024).decode() 
+print("Client says:", data) 
+# send response 
+conn.send("Hello from server".encode()) 
+# close connection 
+conn.close() 
+server_socket.close() 
+
+Client Code (Python) 
+
+import socket 
+# create socket 
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+# connect to server 
+client_socket.connect(('localhost', 12345)) 
+# send message 
+client_socket.send("Hello from client".encode()) 
+# receive response 
+data = client_socket.recv(1024).decode() 
+print("Server says:", data) 
+# close connection 
+client_socket.close()
+Aim
+
+To study the concept of socket programming and implement communication between client and server using TCP (Transmission Control Protocol).
+
+Software Used
+
+Python / C / Java (any one)
+Command Prompt / Terminal
+Any Text Editor (Notepad / VS Code)
+Theory
+
+Socket Programming
+
+A socket is an endpoint for communication between two machines over a network. It allows data exchange between client and server.
+
+TCP (Transmission Control Protocol)
+
+TCP is a connection-oriented protocol, meaning:
+
+Connection is established before communication
+Reliable data transfer
+Data arrives in correct order
+Error checking and retransmission
+Client-Server Model
+Server: waits for incoming requests
+Client: sends request to server
+Steps in TCP Communication
+Server creates socket
+Server binds IP + port
+Server listens for connection
+Client connects to server
+Data is sent/received
+Connection is closed
+Procedure
+Step 1: Write Server Program (Python)
+Step 2: Write Client Program (Python)
+Step 3: Execute Program
+Run server program first
+Then run client program
+Observe message exchange
+Result
+
+Client and server successfully communicated using TCP protocol. Data was transmitted reliably between both systems.
