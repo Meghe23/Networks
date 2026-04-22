@@ -1,0 +1,27 @@
+SOFTWARE USED: 
+Tcl/Tk, Terminal, Text 
+editor (nano / gedit / vi)
+
+theory 
+Tcl (Tool Command Language) 
+Tcl is an interpreted scripting language used in NS-2 to: 
+● Create nodes and links 
+● Schedule events 
+● Control simulations 
+Every NS-2 simulation starts with a Tcl script.
+
+Procedure: 
+1. Open Terminal. 
+2. Install tcl 
+>sudo apt install tcl 
+3. Create Tcl file: 
+> nano hello.tcl 
+3. Type the program and save the file 
+# Hello World program in Tcl 
+puts "Hello World" 
+4. Execute the program: 
+> tclsh hello.tcl 
+Expected Output: 
+Hello World 
+
+RESULT: The installation results are shown with the sheet attached. 
